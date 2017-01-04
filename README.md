@@ -1,5 +1,5 @@
 # Google Analytics Download Tracker
-*ga-download-tracker.js_*
+*ga-download-tracker.js*
 
 **Track file downloads using Google Analytics virtual pageviews**
 
