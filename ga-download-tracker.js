@@ -19,12 +19,18 @@
     var gadt = new (function () {
 
         // Filetypes to track
-        var filetypes = /\.pdf$|\.zip$|\.od*|\.doc*|\.xls*|\.ppt*|\.exe$|\.dmg$|\.mp4$|\.mov$|\.avi$|\.mp3$/i;
+        var filetypes = /\.pdf$|\.zip$|\.od*|\.doc*|\.xls*|\.ppt*|\.exe$|\.dmg$|\.mp\d$|\.mov$|\.avi$|\.gif$|\.png$|\.wav$|\.jpg$|\.jpeg$|\.ogg$/i;
 
-        var track = function (event, link) {
+        var track = function (event) {
+
+            // This script only works if it is called from a link <a> with a href attribute
+            var link = this;
+            if (link.href === null || link.href.length === 0) {
+                return;
+            }
 
             // Is Google Analytics loaded?
-            if (typeof (window.ga) === "undefined" || window.ga === null) {
+            if (typeof (ga) === "undefined" || ga === null || ga.loaded !== true) {
                 console.log("Google Analytics is not loaded, cannot track download of file: " + link.pathname);
                 return;
             }
@@ -74,12 +80,21 @@
             // Wait 3 seconds, and if Google Analytics hasn't responded,
             // download file anyway
             setTimeout(function () {
-                console.log("Google Analytics didn't respond, downloading file anyway: " + link.pathname);
+                console.log("Google Analytics didn't respond, cannot track download of file: " + link.pathname);
                 document.location.href = link.href;
             }, 3000);
         }
 
-        var init = function () {
+        var init = function () { 
+
+            var links = document.links;
+            var linksLength = links.length;
+
+            for (var i = 0; i < linksLength; i++) {
+                links[i].onclick = track;
+            }
+
+
             //    for (var i = 0, l = links.length; i < l; i++) {
             //        //Compare the fileType to the whitelist
             //        var match = links[i].pathname.match(whitelist);
@@ -102,6 +117,6 @@
     window.gadt = gadt;
 
     // Run scripts after page is loaded
-    //window.onload = gadt.init;
+    window.onload = gadt.init;
 })();
 
