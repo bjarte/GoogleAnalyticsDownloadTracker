@@ -1,17 +1,14 @@
 ﻿/*
  * Google Analytics Download Tracker
+ * https://github.com/bjarte/ga-download-tracker
  * 
- * GADT sends virtual pageviews to Google Analytics when users download files.
+ * GADT sends a virtual pageview and an event to Google Analytics 
+ * when a user clicks a link to download a file.
  * 
- * Copyright (c) 2016 by Bjarte Aune Olsen (https://basementmedia.no)
+ * Copyright (c) 2017 Bjarte Aune Olsen (https://basementmedia.no)
+ * Licensed under the MIT (http://en.wikipedia.org/wiki/MIT_License) license.
  * 
- * The pageviews use the actual url to the document, so you will find for example this
- * file http://mysite.com/files/document.docx in Google Analytics under Behaviour → 
- * Site Content → Content Drilldown → /files/
- * 
- * The advantage to using virtual pageviews over events, is that the statistics for how 
- * many people are downloading a file is easily compared to how many people are 
- * viewing a page on your site.
+ * Inspired by Entourage.js by Tian Davis (http://techoctave.com/c7)
  */
 
 (function () {
@@ -53,6 +50,27 @@
             // Google Analytics has had time to track it
             event.preventDefault();
 
+            var trackedPageview = false;
+            var trackedEvent = false;
+
+            // Send event to Google Analytics
+            ga("send",
+            {
+                hitType: "event",
+                eventCategory: "Downloaded file",
+                eventAction: filename,
+                eventLabel: link.pathname,
+                hitCallback: function () {
+                    // When Google Analytics is done tracking, download file
+                    console.log("Google Analytics tracked download of file as event: " + link.pathname);
+                    trackedEvent = true;
+                    // Only download file if both event and pageview tracking is finished
+                    if (trackedPageview) {
+                        document.location.href = link.href;
+                    }
+                }
+            });
+
             // Send virtual pageview to Google Analytics
             ga("send",
             {
@@ -60,21 +78,14 @@
                 page: link.pathname,
                 title: filename,
                 hitCallback: function () {
-                    // When Google Analytics has tracked the download, 
-                    // download file
-                    console.log("Google Analytics tracked download of file: " + link.pathname);
-                    document.location.href = link.href;
+                    // When Google Analytics is done tracking, download file
+                    console.log("Google Analytics tracked download of file as pageview: " + link.pathname);
+                    trackedPageview = true;
+                    // Only download file if both event and pageview tracking is finished
+                    if (trackedEvent) {
+                        document.location.href = link.href;
+                    }
                 }
-            });
-
-            // Send event to Google Analytics
-            // (fallback if virtual pageview doesn't work)
-            ga("send",
-            {
-                hitType: "event",
-                eventCategory: "Downloaded file",
-                eventAction: filename,
-                eventLabel: link.pathname
             });
 
             // Wait 3 seconds, and if Google Analytics hasn't responded,
@@ -85,26 +96,13 @@
             }, 3000);
         }
 
-        var init = function () { 
-
+        var init = function () {
             var links = document.links;
             var linksLength = links.length;
-
+            // Add tracking code to all links on the page
             for (var i = 0; i < linksLength; i++) {
                 links[i].onclick = track;
             }
-
-
-            //    for (var i = 0, l = links.length; i < l; i++) {
-            //        //Compare the fileType to the whitelist
-            //        var match = links[i].pathname.match(whitelist);
-
-            //        //If the link is for a file download . . .
-            //        if (typeof match !== "undefined" && match !== null) {
-            //            //Call Entourage whenever the link is clicked
-            //            links[i].onclick = autograph;
-            //        }
-            //    }
         }
 
         return {
@@ -116,7 +114,6 @@
     // Add tracker to global scope
     window.gadt = gadt;
 
-    // Run scripts after page is loaded
+    // Initialize tracker when page is loaded
     window.onload = gadt.init;
 })();
-
