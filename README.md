@@ -1,15 +1,26 @@
 # Google Analytics Download Tracker
 *ga-download-tracker.js*
 
-**Track file downloads using Google Analytics virtual pageviews**
+**This script help you track file downloads in Google Analytics using virtual pageviews and events.**
 
-NB! This script isn't working yet. It still requires links to be in the following format to work: 
-```html
-<a onclick="gadt.track(event, this);" href="/files/file.pdf">Download file</a>
-```
+## Example
 
-The plan is to insert the onclick events automatically.
+Let us say you have a link to this file on your website:
+http://mysite.com/content/files/document.docx 
 
-### Thanks
+### Google Analytics Pageviews
+
+The pageview uses the actual path to the file, so you will find the statistics for the example file in Google Analytics' dashboard here:
+
+Behaviour → Site Content → Content Drilldown → /content/ → /files/
+
+### Google Analytics Events
+
+The event for the example file has these properties:
+- Event Category: *Downloaded file*
+- Event Action: *document.docx*
+- Event Label: */content/files/document.docx*
+
+## Thanks
 
 A big thanks to [TechOctave](https://techoctave.com/), their project [entourage.js](https://github.com/techoctave/entourage) was a big influence.
