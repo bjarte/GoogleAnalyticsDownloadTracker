@@ -6,6 +6,7 @@
  * when a user clicks a link to download a file.
  * 
  * Copyright (c) 2017 Bjarte Aune Olsen (https://basementmedia.no)
+ * 
  * Licensed under the MIT (http://en.wikipedia.org/wiki/MIT_License) license.
  * 
  * Inspired by Entourage.js by Tian Davis (http://techoctave.com/c7)
