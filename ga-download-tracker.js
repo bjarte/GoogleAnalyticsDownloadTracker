@@ -17,7 +17,7 @@
     var gadt = new (function () {
 
         // Filetypes to track
-        var filetypes = /\.pdf$|\.zip$|\.od*|\.doc*|\.xls*|\.ppt*|\.exe$|\.dmg$|\.mp\d$|\.mov$|\.avi$|\.gif$|\.png$|\.wav$|\.jpg$|\.jpeg$|\.ogg$/i;
+        var filetypes = /\.pdf$|\.zip$|\.od*|\.doc*|\.xls*|\.ppt*|\.exe$|\.dmg$|\.mp\d$|\.mov$|\.avi$|\.wav$|\.ogg$/i;
 
         var track = function (event) {
 
