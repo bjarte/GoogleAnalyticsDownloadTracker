@@ -1,0 +1,30 @@
+{
+  "name": "ga-download-tracker",
+  "version": "1.0.0",
+  "description": "Google Analytics Download Tracker",
+  "main": "ga-download-tracker.js",
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-uglify": "^2.0.0",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bjarte/ga-download-tracker.git"
+  },
+  "author": "Bjarte Aune Olsen",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/bjarte/ga-download-tracker/issues"
+  },
+  "homepage": "https://github.com/bjarte/ga-download-tracker#readme"
+}
