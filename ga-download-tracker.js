@@ -2,6 +2,8 @@
  * Google Analytics Download Tracker
  * https://github.com/bjarte/ga-download-tracker
  * 
+ * Version 1.1.0
+ * 
  * GADT sends a virtual pageview and an event to Google Analytics 
  * when a user clicks a link to download a file.
  * 
@@ -14,7 +16,7 @@
 
 (function () {
 
-    var gadt = new (function () {
+    var gadt = (function () {
 
         // Filetypes to track
         var filetypes = /\.pdf$|\.zip$|\.od*|\.doc*|\.xls*|\.ppt*|\.exe$|\.dmg$|\.mp\d$|\.mov$|\.avi$|\.wav$|\.ogg$/i;
@@ -95,7 +97,7 @@
                 console.log("Google Analytics didn't respond, cannot track download of file: " + link.pathname);
                 document.location.href = link.href;
             }, 3000);
-        }
+        };
 
         var init = function () {
             var links = document.links;
@@ -104,13 +106,13 @@
             for (var i = 0; i < linksLength; i++) {
                 links[i].onclick = track;
             }
-        }
+        };
 
         return {
             init: init,
             track: track
-        }
-    });
+        };
+    })();
 
     // Add tracker to global scope
     window.gadt = gadt;
